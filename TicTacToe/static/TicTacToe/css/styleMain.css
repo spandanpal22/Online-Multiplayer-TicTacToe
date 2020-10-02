@@ -1,0 +1,33 @@
+#foot {
+    list-style: none;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.social-icon {
+    font-size: 2rem;
+    color: greenyellow;
+}
+
+.social-icon:hover {
+    color: white;
+}
+
+.title-navbar {
+    font-size: 1rem;
+}
+
+.input-msg {
+    width: 65vw;
+}
+
+@media only screen and (max-width: 600px) {
+    .title-navbar {
+        font-size: 10px;
+    }
+
+    .input-msg {
+        width: 50vw;
+    }
+}
+

@@ -1,0 +1,112 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe{% endblock %}
+{% block head %}{% endblock %}
+{% block content %}
+    <div class="container-fluid" style="margin-top: 2vh; margin-bottom: 2vh;">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-2" style="text-align: center">Create/Join Room</div>
+            <div class="col"></div>
+        </div>
+        <div class="row" style="margin-top: 2vh; margin-bottom: 2vh;">
+            <div class="col"></div>
+            <div class="col-lg-3" style="text-align: center">What chat room would you like to enter?</div>
+            <div class="col"></div>
+        </div>
+        <div class="row" style="margin-top: 2vh; margin-bottom: 2vh;">
+            <div class="col"></div>
+            <div class="col-lg-3" style="text-align: center;">
+                <input id="room-name-input" name='RoomName' type="text">
+                <button id="room-name-submit" type="button" value="Enter" class="btn btn-primary"
+                        style="display: inline-block;">Create
+                </button>
+                <button id="room-name-join" type="button" value="Enter" class="btn btn-success"
+                        style="display: inline-block;">Join
+                </button>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="c" style="color: red; text-align: center;">
+            {% for mes in messages %}
+                <b>{{ mes }}</b>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function (e) {
+            //if (e.keyCode === 13) {  // enter, return
+            //    document.querySelector('#room-name-submit').click();
+            //}
+        };
+
+        document.querySelector('#room-name-submit').onclick = function (e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            var shouldOpenRoom = false;
+
+            var myHeaders = new Headers();
+            myHeaders.append("Cookie", "csrftoken=" + csrftoken);
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+            };
+            fetch("/validate-room-name/" + roomName, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    result = JSON.parse(result);
+                    console.log(result.is_taken);
+                    if (result.is_taken === true) {
+                        alert('This room name is already taken. Try a different name.')
+                    } else {
+                        window.location.pathname = roomName + '/';
+                    }
+                })
+                .catch(error => console.log('error', error));
+        };
+
+        document.querySelector('#room-name-join').onclick = function (e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            var shouldOpenRoom = false;
+
+            var myHeaders = new Headers();
+            myHeaders.append("Cookie", "csrftoken=" + csrftoken);
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+            };
+            fetch("/validate-room-name/" + roomName, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    result = JSON.parse(result);
+                    console.log(result.is_full);
+                    if (result.is_full === true) {
+                        alert('This room name is full. Try to create a new room.')
+                    } else {
+                        window.location.pathname = roomName + '/';
+                    }
+                })
+                .catch(error => console.log('error', error));
+        };
+    </script>
+{% endblock %}

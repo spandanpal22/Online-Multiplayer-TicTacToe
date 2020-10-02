@@ -1,0 +1,16 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe{% endblock %}
+{% block head %}{% endblock %}
+{% block content %}
+    <div class="container-fluid" style="margin-top: 2vh ;">
+        <div class="jumbotron">
+            <h1 class="display-4">Hello, guys!</h1>
+            <p class="lead">Welcome to <b>online</b> Multiplayer Tic-Tac-Toe game. </p>
+            <hr class="my-4">
+            <p>This game can be played by two players sitting anywhere in the world over the internet. So invite your
+                friends and start playing.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'play' %}" role="button">Start Playing!</a>
+        </div>
+    </div>
+{% endblock %}

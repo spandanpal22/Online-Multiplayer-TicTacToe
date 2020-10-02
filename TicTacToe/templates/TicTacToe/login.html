@@ -1,0 +1,68 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe - Login{% endblock %}
+{% block head %}
+     <style>
+        form {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            opacity: 0.9;
+        }
+
+        .c {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="signin">
+        <div class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-lg-7">
+                    <form action="{% url 'log_in' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <h2 style="text-align: center;margin:30px; font-family: 'Roboto Slab', serif;">Log In</h2>
+                        </div>
+                        <div class="form-group c ">
+                            <label for="inputUsername">Username</label>
+                            <input type="text" class="form-control" id="inputUsername" name="username"
+                                   aria-describedby="emailHelp"
+                                   placeholder="Enter username" required>
+                        </div>
+                        <div class="form-group c">
+                            <label for="inputPassword1">Password</label>
+                            <input type="password" class="form-control" id="inputPassword1" name="password"
+                                   placeholder="Password" pattern=".{8,}"
+                                   title="Eight or more characters.Don't use a simple password." required>
+                        </div>
+
+
+                        <div class="c">
+                            <button type="submit" class="btn btn-success">Log In</button>
+                        </div>
+                        <div class="c">
+
+                        </div>
+                        <div class="c">
+                            <a href="{% url 'sign_up' %}">Don't have an account?</a>
+                        </div>
+                        <div class="c">
+                            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                        </div>
+                        <div class="c" style="color: red;">
+                            {% for mes in messages %}
+                                <b>{{ mes }}</b>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

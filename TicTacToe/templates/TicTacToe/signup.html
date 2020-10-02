@@ -1,0 +1,84 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe - Sign Up{% endblock %}
+{% block head %}
+    <style>
+        form {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            opacity: 0.9;
+        }
+
+        .c {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="signup">
+        <div class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-lg-10">
+                    <form action="{% url 'sign_up' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <h2 style="text-align: center;margin:30px; font-family: 'Roboto Slab', serif;">Sign Up</h2>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Name">First Name</label>
+                                <input type="text" class="form-control" id="Name" name="first_name"
+                                       placeholder="First Name" required maxlength="50">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Name">Last Name</label>
+                                <input type="text" class="form-control" id="Name" name="last_name"
+                                       placeholder="Last Name" required maxlength="50">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="Email">Email</label>
+                                <input type="email" class="form-control" id="Email" name="email"
+                                       placeholder="Email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Username">Username</label>
+                                <input type="text" class="form-control" id="Username" name="username"
+                                       placeholder="Username" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Password">Password</label>
+                                <input type="password" class="form-control" id="Password" name="password"
+                                       placeholder="Password" pattern=".{8,}"
+                                       title="Eight or more characters.Don't use a simple password." required>
+                            </div>
+                        </div>
+
+                        <div class="c">
+                            <button type="submit" class="btn btn-danger">Sign Up</button>
+                        </div>
+                        <div class="forgotPassword c">
+                            <a href="{% url 'log_in' %}">Already have an account?</a>
+                        </div>
+                        <div class="c" style="color: red;">
+                            {% for mes in messages %}
+                                <b>{{ mes }}</b>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

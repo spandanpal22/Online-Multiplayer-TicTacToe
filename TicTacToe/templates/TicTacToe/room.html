@@ -1,0 +1,412 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe{% endblock %}
+{% block head %}
+    <!-- DO NOT AUTO INDENT THIS PAGE -->
+    <style>
+        .centerAlign {
+            text-align: center;
+        }
+
+        #chat-log {
+            width: 80vw;
+            resize: none;
+            background-color: #daffa6;
+            padding: 10px;
+            color: black;
+        }
+
+        #chat-message-input {
+            padding: 5px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #chat-log {
+                width: 90vw;
+            }
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <!-- DO NOT AUTO INDENT THIS PAGE -->
+
+    <!-- Button trigger modal -->
+    <button style="display: none;" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#staticBackdrop" id="showGameResultButton">
+        Launch static backdrop modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Congratulations Player 1 !!!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="resultMsg2">
+                    Player 1 won the game.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="reloadPage()">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Ends -->
+
+    <div class="container-fluid" style="margin-top: 2vh; margin-bottom: 1vh;">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-2 centerAlign"><h5>Room Name : <b>{{ room_name }}</b></h5></div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-2 centerAlign"><h5>Play Area</h5></div>
+            <div class="col"></div>
+        </div>
+        <div class="row" style="margin-top: 2vh;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <h5 style="float: left">Player 1(X)</h5>
+                <h5 style="float: right;">Player 2(O)</h5>
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <h6 style="float: left">{{ player1Name }}</h6>
+                <h6 style="float: right;">{{ player2Name }}</h6>
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <h6 style="float: left">Score : {{ scoreP1 }}</h6>
+                <h6 style="float: right;">Score : {{ scoreP2 }}</h6>
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-2 centerAlign"><h6>Total Matches : 5</h6></div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-6 col-xs-6 col-md-6 centerAlign">( Don't refresh the page while the game is in progress
+                )
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+
+    <!-- Tic Tac Toe Grid open -->
+    <div style="margin-bottom: 10vh;">
+        <div class="row" style="width: 90vw;margin-left: 0;margin-top: 3vh;">
+            <div class="col" style="width: 90vw;padding: 0;">
+                <div class="row" style="width: 60vw;margin-left: 22vw;">
+                    <div class="col"
+                         style="text-align: center;border-style: none;border-top-style: solid;border-right-style: solid;border-right-color: rgb(1,11,21);border-bottom-style: solid;border-left-style: solid;">
+                        <button id="pos0_0" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                    <div class="col"
+                         style="text-align: center;border-top-style: solid;border-right-style: solid;border-bottom-style: solid;">
+                        <button id="pos0_1" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                    <div class="col"
+                         style="text-align: center;border-top-style: solid;border-right-style: solid;border-bottom-style: solid;">
+                        <button id="pos0_2" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="width: 90vw;margin-left: 0;margin-top: 0;">
+            <div class="col" style="width: 90vw;padding: 0;">
+                <div class="row" style="width: 60vw;margin-left: 22vw;">
+                    <div class="col"
+                         style="text-align: center;border-style: none;border-right-style: solid;border-right-color: rgb(1,11,21);border-bottom-style: solid;border-left-style: solid;">
+                        <button id="pos1_0" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                    <div class="col" style="text-align: center;border-right-style: solid;border-bottom-style: solid;">
+                        <button id="pos1_1" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                    <div class="col" style="text-align: center;border-right-style: solid;border-bottom-style: solid;">
+                        <button id="pos1_2" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="width: 90vw;margin-left: 0;margin-top: 0;">
+            <div class="col" style="width: 90vw;padding: 0;">
+                <div class="row" style="width: 60vw;margin-left: 22vw;">
+                    <div class="col"
+                         style="text-align: center;border-style: none;border-right-style: solid;border-right-color: rgb(1,11,21);border-bottom-style: solid;border-left-style: solid;">
+                        <button id="pos2_0" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                    <div class="col" style="text-align: center;border-right-style: solid;border-bottom-style: solid;">
+                        <button id="pos2_1" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                    <div class="col" style="text-align: center;border-right-style: solid;border-bottom-style: solid;">
+                        <button id="pos2_2" class="btn btn-primary" type="button"
+                                style="margin-top: 18px;margin-bottom: 21px;">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tic Tac Toe Grid open -->
+
+
+    <div class="container-fluid" style="margin-top: 2vh; margin-bottom: 2vh;">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-2 centerAlign"><h5>Chat Area</h5></div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <textarea id="chat-log" rows="20" disabled></textarea><br>
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <input id="chat-message-input" type="text" class="input-msg" placeholder="Type your message here">
+                <button id="chat-message-submit" type="button" value="Send" class="btn btn-success"
+                        style="display: inline-block;">Send
+                </button>
+                {{ room_name|json_script:"room-name" }}
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <!-- DO NOT AUTO INDENT THIS PAGE -->
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        var lastTurn = '';
+        var winner = '';
+        var allPos = ["#pos0_0", "#pos0_1", "#pos0_2", "#pos1_0", "#pos1_1", "#pos1_2", "#pos2_0", "#pos2_1", "#pos2_2"];
+        var wsStart;
+        if (window.location.protocol === 'https:') {
+            wsStart = 'wss://'
+        } else {
+            wsStart = 'ws://'
+        }
+        var username = "{{user.get_username}}";
+        const chatSocket = new WebSocket(
+            wsStart
+            + window.location.host
+            + '/ws/'
+            + roomName
+            + '/'
+        );
+        const gameSocket = new WebSocket(
+            wsStart
+            + window.location.host
+            + '/ws/'
+            + 'game/'
+            + roomName
+            + '/'
+        );
+
+        const reloadPage = () => {
+            location.reload();
+        };
+
+        // Opens a Bootstrap Modal displaying the result
+        const showGameResult = () => {
+            var resultMsgTitle = document.querySelector('#staticBackdropLabel');
+            var resultMsgBody = document.querySelector('#resultMsg2');
+            resultMsgTitle.innerHTML = "Congratulations " + winner + " !!!";
+            resultMsgBody.innerHTML = winner + " won the game.";
+            document.getElementById("showGameResultButton").click();
+        };
+
+        // Chat Socket Related Calls
+        chatSocket.onopen = () => {
+            console.log('Chat Socket Connected.')
+        };
+        chatSocket.onmessage = (e) => {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').value += (data.username + " : " + data.message + '\n');
+        };
+        chatSocket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': username,
+            }));
+            messageInputDom.value = '';
+        };
+
+        // Game Socket Related Calls
+        gameSocket.onopen = () => {
+            console.log('Game Socket Connected.')
+        };
+        gameSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            {#console.log('game socket data received', data);#}
+            let posButton = document.querySelector('#' + data.pos);
+            lastTurn = data.username;
+            if (!posButton.hasAttribute('disabled')) {
+                posButton.setAttribute('disabled', '');
+                if (data.username === "{{ player1Name }}") {
+                    posButton.innerHTML = 'X';
+                } else {
+                    posButton.innerHTML = 'O';
+                }
+            }
+            var checkIsGameOver = isGameOver();
+            if (checkIsGameOver === true) {
+                // post scores here
+                showGameResult();
+            }
+        };
+        gameSocket.onclose = function (e) {
+            console.error('Game socket closed unexpectedly');
+        };
+
+        const playChance = (idOfButton) => {
+            var shouldProcede = checkTurn(username);
+            if (shouldProcede === false)
+                return;
+
+            let posButton = document.querySelector(idOfButton);
+            posButton.setAttribute('disabled', '');
+            if (username === "{{ player1Name }}") {
+                posButton.innerHTML = 'X';
+            } else {
+                posButton.innerHTML = 'O';
+            }
+            var pos = idOfButton.substring(1);
+            gameSocket.send(JSON.stringify({
+                'pos': pos,
+                'username': username,
+            }));
+        };
+
+        const isGameOver = () => {
+            var allPosSelector = [];
+            var i, flag = true;
+            for (i = 0; i < allPos.length; i++) {
+                if (document.querySelector(allPos[i]).innerHTML === "-") {
+                  allPosSelector.push(i);
+                }
+                else{
+                    allPosSelector.push(document.querySelector(allPos[i]).innerHTML);
+                }
+            }
+
+            // 8 winning cases
+            if ((allPosSelector[0] === allPosSelector[4] && allPosSelector[0] === allPosSelector[8] && allPosSelector[0] === 'X') ||
+                (allPosSelector[2] === allPosSelector[4] && allPosSelector[4] === allPosSelector[6] && allPosSelector[6] === 'X') ||
+                (allPosSelector[0] === allPosSelector[3] && allPosSelector[3] === allPosSelector[6] && allPosSelector[6] === 'X') ||
+                (allPosSelector[1] === allPosSelector[4] && allPosSelector[4] === allPosSelector[7] && allPosSelector[7] === 'X') ||
+                (allPosSelector[2] === allPosSelector[5] && allPosSelector[5] === allPosSelector[8] && allPosSelector[8] === 'X') ||
+                (allPosSelector[0] === allPosSelector[1] && allPosSelector[1] === allPosSelector[2] && allPosSelector[2] === 'X') ||
+                (allPosSelector[3] === allPosSelector[4] && allPosSelector[4] === allPosSelector[5] && allPosSelector[5] === 'X') ||
+                (allPosSelector[6] === allPosSelector[7] && allPosSelector[7] === allPosSelector[8] && allPosSelector[8] === 'X')) {
+                winner = "{{ player1Name }}";
+                return true;
+            }
+            if ((allPosSelector[0] === allPosSelector[4] && allPosSelector[0] === allPosSelector[8] && allPosSelector[0] === 'O') ||
+                (allPosSelector[2] === allPosSelector[4] && allPosSelector[4] === allPosSelector[6] && allPosSelector[6] === 'O') ||
+                (allPosSelector[0] === allPosSelector[3] && allPosSelector[3] === allPosSelector[6] && allPosSelector[6] === 'O') ||
+                (allPosSelector[1] === allPosSelector[4] && allPosSelector[4] === allPosSelector[7] && allPosSelector[7] === 'O') ||
+                (allPosSelector[2] === allPosSelector[5] && allPosSelector[5] === allPosSelector[8] && allPosSelector[8] === 'O') ||
+                (allPosSelector[0] === allPosSelector[1] && allPosSelector[1] === allPosSelector[2] && allPosSelector[2] === 'O') ||
+                (allPosSelector[3] === allPosSelector[4] && allPosSelector[4] === allPosSelector[5] && allPosSelector[5] === 'O') ||
+                (allPosSelector[6] === allPosSelector[7] && allPosSelector[7] === allPosSelector[8] && allPosSelector[8] === 'O')) {
+                winner = "{{ player2Name }}";
+                return true;
+            }
+
+            for (i = 0; i < allPos.length; i++) {
+                if (!document.querySelector(allPos[i]).hasAttribute('disabled')) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        };
+
+        const checkTurn = (presentTurn) => {
+            if (presentTurn === lastTurn) {
+                alert("It's not your turn.");
+                return false;
+            }
+            return true;
+        };
+
+        document.querySelector('#pos0_0').onclick = function (e) {
+            var posID = '#pos0_0';
+            playChance(posID);
+        };
+        document.querySelector('#pos0_1').onclick = function (e) {
+            var posID = '#pos0_1';
+            playChance(posID);
+        };
+        document.querySelector('#pos0_2').onclick = function (e) {
+            var posID = '#pos0_2';
+            playChance(posID);
+        };
+        document.querySelector('#pos1_0').onclick = function (e) {
+            var posID = '#pos1_0';
+            playChance(posID);
+        };
+        document.querySelector('#pos1_1').onclick = function (e) {
+            var posID = '#pos1_1';
+            playChance(posID);
+        };
+        document.querySelector('#pos1_2').onclick = function (e) {
+            var posID = '#pos1_2';
+            playChance(posID);
+        };
+        document.querySelector('#pos2_0').onclick = function (e) {
+            var posID = '#pos2_0';
+            playChance(posID);
+        };
+        document.querySelector('#pos2_1').onclick = function (e) {
+            var posID = '#pos2_1';
+            playChance(posID);
+        };
+        document.querySelector('#pos2_2').onclick = function (e) {
+            var posID = '#pos2_2';
+            playChance(posID);
+        };
+
+    </script>
+    <!-- DO NOT AUTO INDENT THIS PAGE -->
+{% endblock %}

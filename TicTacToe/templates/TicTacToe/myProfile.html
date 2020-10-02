@@ -1,0 +1,54 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe{% endblock %}
+{% block head %}
+    <style>
+        .my_profile {
+            background-image: url("{% static 'my_system/images/myProfileBG.jpg' %}");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: auto;
+            padding: 10px;
+        }
+
+        .bgh {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            opacity: 0.9;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="my_profile" style="background-color: #3E4551;">
+        <div class="container" style="text-align: center;">
+            <div class="row bgh ">
+                <div class="col"></div>
+                <div class="col-lg-5" style="font-family: 'Roboto Slab', serif;"><h1>My Profile</h1></div>
+                <div class="col"></div>
+            </div>
+            <div class="row bgh ">
+                <div class="col"></div>
+                <div class="col-lg-2"><b>Username :</b></div>
+                <div class="col-lg-4">{{ username }}</div>
+                <div class="col"></div>
+            </div>
+            <div class="row bgh ">
+                <div class="col-lg-2"><b>First Name :</b></div>
+                <div class="col-lg-4">{{ fn }}</div>
+                <div class="col-lg-2"><b>Last Name :</b></div>
+                <div class="col-lg-4">{{ ln }}</div>
+            </div>
+            <div class="row bgh ">
+                <div class="col"></div>
+                <div class="col-lg-2"><b>Email :</b></div>
+                <div class="col-lg-4">{{ email }}</div>
+                <div class="col"></div>
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}

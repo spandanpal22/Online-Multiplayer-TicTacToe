@@ -1,0 +1,31 @@
+{% extends 'TicTacToe/base.html' %}
+{% load static %}
+{% block title %}Multiplayer Tic Tac Toe - About{% endblock %}
+{% block head %}
+    <style>
+        .game-rule{
+            text-align: center;
+        }
+    .title{
+        margin-top: 1%;
+        margin-bottom: 1%;
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="game-rule title">
+            <h1>Rules</h1>
+        </div>
+        <div class="alert alert-primary game-rule" >
+            1. One player is X and another is O. Players take turns putting their marks in empty squares.
+        </div>
+        <div class="alert alert-secondary game-rule" >
+            2. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
+        </div>
+        <div class="alert alert-success game-rule" >
+            3. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.
+        </div>
+
+    </div>
+{% endblock %}

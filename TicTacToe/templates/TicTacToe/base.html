@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="nKiSz_RQahRi_GaVgT8o-sSHgrJbFzTumcLZnCG9y9c"/>
+    <meta name="msvalidate.01" content="19CCCB1AAA624B7F0BC71E770B2DA33B"/>
+
+    <!-- Primary Meta Tags -->
+    <title>{% block title %}Online Multiplayer Tic-Tac-Toe with chat support{% endblock %}</title>
+{#    <title>{% block title %}Multiplayer Tic Tac Toe{% endblock %}</title>#}
+    <meta name="title" content="Online Multiplayer Tic-Tac-Toe with chat support">
+    <meta name="description"
+          content="Play the classic game of Tic-Tac-Toe with your friends over the internet. Create a room to start playing and chatting simultaneously.">
+    <meta name="Keywords"
+          content="Tic-Tac-Toe, tictactoe, game, multiplayer, online,  Spandan, Spandan Pal, Django, College, Django Channels, chat, chatroom, xo, XO, school, kids, friends, palying, chatting, play, websocket ">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://metatags.io/">
+    <meta property="og:title" content="Online Multiplayer Tic-Tac-Toe with chat support">
+    <meta property="og:description"
+          content="Play the classic game of Tic-Tac-Toe with your friends over the internet. Create a room to start playing and chatting simultaneously.">
+    <meta property="og:image"
+          content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://metatags.io/">
+    <meta property="twitter:title" content="Online Multiplayer Tic-Tac-Toe with chat support">
+    <meta property="twitter:description"
+          content="Play the classic game of Tic-Tac-Toe with your friends over the internet. Create a room to start playing and chatting simultaneously.">
+    <meta property="twitter:image"
+          content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+    {% block head %}{% endblock %}
+
+    <link rel="icon" href="{% static 'TicTacToe/img/icon.png' %}">
+
+    <link rel="stylesheet" href="{% static 'TicTacToe/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'TicTacToe/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'TicTacToe/css/styleMain.css' %}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">
+        <img src="{% static 'TicTacToe/img/icon.png' %}" width="30" height="30" alt="icon" style="margin-right: 10px;"/>
+        <span class="title-navbar">MULTIPLAYER TIC-TAC-TOE</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <div class="my-2 my-lg-0">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'home' %}">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'rules' %}">RULES</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'play' %}">PLAY</a>
+                </li>
+            </ul>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="my-2 my-lg-0">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="change" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                           style="margin-right: 10px;color: #fd7e14;">
+                            <b>Welcome!! {{ user.username }}</b>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'myProfile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'myMatches' %}">Matches Played</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-inline my-3 my-lg-0">
+                <a href="{% url 'log_out' %}">
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out
+                    </button>
+                </a>
+            </div>
+        {% else %}
+            <div class="form-inline my-3 my-lg-0">
+                <a href="{% url 'sign_up' %}">
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" style="margin-right: 10px"
+                    >Sign Up
+                    </button>
+                </a>
+                <a href="{% url 'log_in' %}">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log In
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</nav>
+
+
+{% block content %}{% endblock %}
+<footer class="page-footer font-small stylish-color-dark pt-4" style="background-color: #3E4551;color: white;">
+    <hr>
+    <!-- Call to action -->
+    {% if user.is_authenticated %}
+    {% else %}
+        <ul class="list-unstyled list-inline text-center py-2">
+            <li class="list-inline-item">
+                <h5 class="mb-1">Start Playing With Your Friends</h5>
+            </li>
+            <li class="list-inline-item">
+                <a href="{% url 'sign_up' %}" class="btn btn-danger btn-rounded">Sign up!</a>
+            </li>
+        </ul>
+        <hr>
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row navbar-light ">
+            <div class="col"></div>
+            <div class="col-lg-4">
+                <ul id="foot" style="padding-right: 40px;">
+                    <li><b>Developer:</b></li>
+                    <li><b>Spandan Pal </b></li>
+                    <li><b>Email :</b> spandan.pal.nit@gmail.com</li>
+                </ul>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <!-- Call to action -->
+
+    <hr>
+
+    <!-- Social buttons -->
+    <ul class="list-unstyled list-inline text-center">
+        <li class="list-inline-item">
+            <a class="btn-floating btn-fb mx-1" href="https://github.com/spandanpal22">
+                <i class="fab fa-github social-icon"></i>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a class="btn-floating btn-fb mx-1" href="https://www.facebook.com/spandan.pal.22/">
+                <i class="fab fa-facebook-f social-icon"> </i>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a class="btn-floating btn-tw mx-1" href="https://twitter.com/pal_spandan">
+                <i class="fab fa-twitter social-icon"> </i>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a class="btn-floating btn-li mx-1" href="https://www.linkedin.com/in/spandan-pal">
+                <i class="fab fa-linkedin-in social-icon"> </i>
+            </a>
+        </li>
+    </ul>
+    <!-- Social buttons -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright : Spandan Pal
+    </div>
+    <!-- Copyright -->
+
+</footer>
+{% block javascript %}{% endblock %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+</body>
+</html>
