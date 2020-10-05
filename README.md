@@ -6,7 +6,7 @@ Play the classic Tic-Tac-Toe game online with your friends and chat at the same 
 <b>2. </b>Now open the play section where you can either create a game room for your friend and yourself or join an already created room by your friend.
 <br/><br/>
 <b>NOTE - </b> Choose such a room name which is not already taken and share it only with that friend of yours whom you want to play the game with. A room can have only 2 players. Only players having permission to join a particular room can join the room.<br/><br/>
-<b>3. </b>After entering the room players can start the game and also chat with each other at the same time. No chat is stored so once you refresh the page the chats will be gone. Each match will have 5 games.<br/><br/>
+<b>3. </b>After entering the room players can start the game and also chat with each other at the same time. No chat is stored so once you refresh the page the chats will be gone. <br/><br/>
 <br/>
 <br/>
 <h2>Features of this application</h2>
