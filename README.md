@@ -11,12 +11,13 @@ Play the classic Tic-Tac-Toe game online with your friends and chat at the same 
 <br/>
 <h2>Features of this application</h2>
 <b>1. </b>Users can create their accounts and login to access the features of the application. <br/><br/>
-<b>2. </b>Users can create or join rooms to play the game and chat in real time with their friends. <br/><br/>
-<b>3. </b>Users can view their profiles. <br/><br/>
-<b>4. </b>Users can view their match history and re-enter the rooms they were part of. <br/><br/>
-<b>5. </b>The application uses websockets to implements all the real time features. <br/><br/>
-<b>6. </b>The application uses also uses API endpoints built within itself. <br/><br/>
-<b>6. </b>The entire application is responsive which is done using Bootstrap. <br/><br/>
+<b>2. </b>Users can also reset their account passwords in case they forget it. <br/><br/>
+<b>3. </b>Users can create or join rooms to play the game and chat in real time with their friends. <br/><br/>
+<b>4. </b>Users can view their profiles. <br/><br/>
+<b>5. </b>Users can view their match history and re-enter the rooms they were part of. <br/><br/>
+<b>6. </b>The application uses websockets to implements all the real time features. <br/><br/>
+<b>7. </b>The application uses also uses API endpoints built within itself. <br/><br/>
+<b>8. </b>The entire application is responsive which is done using Bootstrap. <br/><br/>
 <br/>
 <br/>
 <h2>About this application</h2>
