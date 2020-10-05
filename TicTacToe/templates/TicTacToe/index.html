@@ -4,12 +4,13 @@
 {% block head %}{% endblock %}
 {% block content %}
     <div class="container-fluid" style="margin-top: 2vh ;">
-        <div class="jumbotron">
+        <div class="jumbotron" style="text-align: center;background-color: #cfcfcf; color: black;">
             <h1 class="display-4">Hello, guys!</h1>
-            <p class="lead">Welcome to <b>online</b> Multiplayer Tic-Tac-Toe game. </p>
-            <hr class="my-4">
+            <p class="lead" style="font-size: 1.5rem;">Welcome to <b>online</b> Multiplayer Tic-Tac-Toe game where you can play and chat.</p>
+            <hr class="my-4" style="background-color: black;">
             <p>This game can be played by two players sitting anywhere in the world over the internet. So invite your
-                friends and start playing.</p>
+                friends and start playing. Chat rooms are also there where you can chat with your friends
+                while playing.</p>
             <a class="btn btn-primary btn-lg" href="{% url 'play' %}" role="button">Start Playing!</a>
         </div>
     </div>

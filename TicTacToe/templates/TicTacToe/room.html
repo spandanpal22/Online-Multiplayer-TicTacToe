@@ -82,7 +82,7 @@
             <div class="col-lg-1"></div>
             <div class="col-lg-10">
                 <h6 style="float: left">{{ player1Name }}</h6>
-                <h6 style="float: right;">{{ player2Name }}</h6>
+                <h6 id="player2ID" style="float: right;">{{ player2Name }}</h6>
             </div>
             <div class="col-lg-1"></div>
         </div>
@@ -94,11 +94,13 @@
             </div>
             <div class="col-lg-1"></div>
         </div>
+        <!--
         <div class="row">
             <div class="col"></div>
             <div class="col-lg-2 centerAlign"><h6>Total Matches : 5</h6></div>
             <div class="col"></div>
         </div>
+        -->
         <div class="row">
             <div class="col"></div>
             <div class="col-lg-6 col-xs-6 col-md-6 centerAlign">( Don't refresh the page while the game is in progress
@@ -203,6 +205,61 @@
 {% block javascript %}
     <!-- DO NOT AUTO INDENT THIS PAGE -->
     <script>
+        function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        const csrftoken = getCookie('csrftoken');
+
+        var isPlayer2NameAvailable = false;
+        window.onload = function start() {
+            checkIfPlayer2Joined();
+        };
+        function checkIfPlayer2Joined() {
+            var intervalID = window.setInterval(function () {
+                var player2="{{ player2Name }}";
+                //isPlayer2NameAvailable = false;
+                if(player2 === 'None')
+                {
+                    var myHeaders = new Headers();
+                    myHeaders.append("Cookie", "csrftoken=" + csrftoken);
+                    var requestOptions = {
+                        method: 'GET',
+                        headers: myHeaders,
+                    };
+
+                    fetch("/getPlayer2Name/" + roomName, requestOptions)
+                        .then(response => response.text())
+                        .then(result => {
+                            result = JSON.parse(result);
+                            var p2name = result.player2Name;
+                            if(p2name !== "None")
+                            {
+                                var selectPlayer2 = document.querySelector('#player2ID');
+                                selectPlayer2.innerHTML = result.player2Name;
+                                clearInterval(intervalID);
+                            }
+                        })
+                        .catch(error => console.log('error', error));
+                }
+                else {
+                    clearInterval(intervalID);
+                }
+            }, 1000);
+        }
+
+
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         var lastTurn = '';
         var winner = '';
@@ -230,7 +287,48 @@
             + '/'
         );
 
-        const reloadPage = () => {
+        const postResult = async () => {
+            var scoreP1 = "{{ scoreP1 }}";
+            scoreP1 = parseInt(scoreP1);
+            var scoreP2 = "{{ scoreP2 }}";
+            scoreP2 = parseInt(scoreP2);
+
+            if(winner === "{{ player1Name }}" )
+                scoreP1=scoreP1+1;
+            else if(winner === "{{ player2Name }}" )
+                scoreP2=scoreP2+1;
+            else
+            {
+                scoreP1=scoreP1+1;
+                scoreP2=scoreP2+1;
+            }
+
+            var requestOptions = {
+                'method': 'POST',
+                'headers': new Headers({
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json',
+                }),
+                mode: 'same-origin' ,
+                body : JSON.stringify({
+                    'scorePlayer1' : scoreP1,
+                    'scorePlayer2' : scoreP2,
+                })
+            };
+
+            if( winner === username || winner === '')
+            {
+                await fetch("/recordScores/" + roomName + "/", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    result = JSON.parse(result);
+                })
+                .catch(error => console.log('error', error));
+            }
+        };
+
+        const reloadPage = async () => {
+            await postResult();
             location.reload();
         };
 
@@ -238,8 +336,17 @@
         const showGameResult = () => {
             var resultMsgTitle = document.querySelector('#staticBackdropLabel');
             var resultMsgBody = document.querySelector('#resultMsg2');
-            resultMsgTitle.innerHTML = "Congratulations " + winner + " !!!";
-            resultMsgBody.innerHTML = winner + " won the game.";
+            if(winner==='')
+            {
+                resultMsgTitle.innerHTML = "Game ended in TIE !!!";
+                resultMsgBody.innerHTML = "No one won the game.";
+            }
+            else
+            {
+                resultMsgTitle.innerHTML = "Congratulations " + winner + " !!!";
+                resultMsgBody.innerHTML = winner + " won the game.";
+            }
+
             document.getElementById("showGameResultButton").click();
         };
 
@@ -290,7 +397,6 @@
             }
             var checkIsGameOver = isGameOver();
             if (checkIsGameOver === true) {
-                // post scores here
                 showGameResult();
             }
         };

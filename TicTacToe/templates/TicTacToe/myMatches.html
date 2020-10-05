@@ -1,7 +1,62 @@
 {% extends 'TicTacToe/base.html' %}
 {% load static %}
 {% block title %}Multiplayer Tic Tac Toe{% endblock %}
-{% block head %}{% endblock %}
+{% block head %}
+    <style>
+        .my_matches {
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: auto;
+            padding: 10px;
+        }
+
+        .bgh {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            opacity: 0.9;
+        }
+    </style>
+{% endblock %}
 {% block content %}
-    My Matches
+    <div class="my_matches" style="background-color: #3E4551;">
+        <div class="container" style="text-align: center;">
+            <div class="row bgh ">
+                <div class="col"></div>
+                <div class="col-lg-5" style="font-family: 'Roboto Slab', serif;"><h1>My Matches</h1></div>
+                <div class="col"></div>
+            </div>
+            <div>
+                {% for room in myRooms %}
+                    <div class="card" style="width: 100%; margin-bottom: 3vh;">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Room Name
+                                : </b>{{ room.room_name }}</h5>
+                            <div class="row">
+                                <div class="col-lg-2" style="font-family: 'Roboto Slab', serif;"></div>
+                                <div class="col-lg-4" style="font-family: 'Roboto Slab', serif;"><b>Player 1
+                                    : </b>{{ room.player1 }}</div>
+                                <div class="col-lg-4" style="font-family: 'Roboto Slab', serif;"><b>Player 2
+                                    : </b>{{ room.player2 }}</div>
+                                <div class="col-lg-2" style="font-family: 'Roboto Slab', serif;"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2" style="font-family: 'Roboto Slab', serif;"></div>
+                                <div class="col-lg-4" style="font-family: 'Roboto Slab', serif;"><b>Player 1 Score
+                                    : </b>{{ room.score_player1 }}</div>
+                                <div class="col-lg-4" style="font-family: 'Roboto Slab', serif;"><b>Player 2 Score
+                                    : </b>{{ room.score_player2 }}</div>
+                                <div class="col-lg-2" style="font-family: 'Roboto Slab', serif;"></div>
+                            </div>
+                            <a href="/{{ room.room_name }}" class="btn btn-primary" style="margin-top: 2vh;">RE-ENTER ROOM</a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

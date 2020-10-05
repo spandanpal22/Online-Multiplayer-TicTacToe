@@ -6,23 +6,24 @@
     <div class="container-fluid" style="margin-top: 2vh; margin-bottom: 2vh;">
         <div class="row">
             <div class="col"></div>
-            <div class="col-lg-2" style="text-align: center">Create/Join Room</div>
+            <div class="col-lg-4" style="text-align: center"><h1>Create/Join Room</h1></div>
             <div class="col"></div>
         </div>
         <div class="row" style="margin-top: 2vh; margin-bottom: 2vh;">
             <div class="col"></div>
-            <div class="col-lg-3" style="text-align: center">What chat room would you like to enter?</div>
+            <div class="col-lg-3" style="text-align: center">Which room would you like to enter?</div>
             <div class="col"></div>
         </div>
         <div class="row" style="margin-top: 2vh; margin-bottom: 2vh;">
             <div class="col"></div>
             <div class="col-lg-3" style="text-align: center;">
-                <input id="room-name-input" name='RoomName' type="text">
+                <input id="room-name-input" name='RoomName' type="text" placeholder="Enter room name">
+                <div style="margin-top: 3vh;"></div>
                 <button id="room-name-submit" type="button" value="Enter" class="btn btn-primary"
-                        style="display: inline-block;">Create
+                        style="display: inline-block; margin-right: 1vw;">CREATE
                 </button>
                 <button id="room-name-join" type="button" value="Enter" class="btn btn-success"
-                        style="display: inline-block;">Join
+                        style="display: inline-block;">JOIN
                 </button>
             </div>
             <div class="col"></div>
@@ -75,7 +76,6 @@
                 .then(response => response.text())
                 .then(result => {
                     result = JSON.parse(result);
-                    console.log(result.is_taken);
                     if (result.is_taken === true) {
                         alert('This room name is already taken. Try a different name.')
                     } else {

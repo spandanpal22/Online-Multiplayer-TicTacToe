@@ -6,6 +6,8 @@ from django.views.generic import View
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.db.models import Q
+import json, sys
 
 from .models import Room
 
@@ -75,7 +77,15 @@ def myProfile(request):
 
 @login_required(login_url='/log-in')
 def myMatches(request):
-    return render(request, 'TicTacToe/myMatches.html', {})
+    myRooms = None
+    try:
+        myRooms = Room.objects.filter(Q(player1=request.user) | Q(player2=request.user))
+        return render(request, 'TicTacToe/myMatches.html', {'myRooms': myRooms})
+    except:
+        print("ERROR", sys.exc_info()[0])
+        pass
+
+    return render(request, 'TicTacToe/myMatches.html', {'myRooms': myRooms})
 
 
 def rules(request):
@@ -117,8 +127,8 @@ def room(request, room_name):
         'room_name': room_name,
         'player1Name': player1Name,
         'player2Name': player2Name,
-        'scoreP1' : scoreP1,
-        'scoreP2' : scoreP2,
+        'scoreP1': scoreP1,
+        'scoreP2': scoreP2,
     })
 
 
@@ -153,3 +163,26 @@ def validate_room_name(request, room_name):
                 data['is_full'] = True
 
     return JsonResponse(data)
+
+
+@login_required(login_url='/log-in')
+def getPlayer2(request, room_name):
+    ROOM = Room.objects.get(room_name=room_name)
+    player2Name = ROOM.player2
+    data = {
+        'player2Name': str(player2Name)
+    }
+    return JsonResponse(data)
+
+
+@login_required(login_url='/log-in')
+def recordScores(request, room_name):
+    if (request.method == 'POST'):
+        receivedData = json.loads(request.body)
+        ROOM = Room.objects.get(room_name=room_name)
+        ROOM.score_player1 = receivedData['scorePlayer1']
+        ROOM.score_player2 = receivedData['scorePlayer2']
+        ROOM.save()
+        data = {'isScoreSaved': True}
+        return JsonResponse(data)
+    return redirect('room', room_name)

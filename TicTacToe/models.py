@@ -6,7 +6,7 @@ class Room(models.Model):
     room_name = models.CharField(blank=False, max_length=100, null=False, unique=True)
     player1 =models.ForeignKey(to=User, blank=False, on_delete=models.DO_NOTHING, related_name='player1') # creator of the room
     player2 = models.ForeignKey(to=User, blank=True, on_delete=models.DO_NOTHING, null=True, related_name='player2')
-    winner = models.CharField(blank=False, max_length=1000, null=True, unique=True)
+    winner = models.CharField(blank=True , max_length=1000, null=True, unique=True)
     total_matches = models.IntegerField(blank=True, null=True, default=5)
     score_player1 = models.IntegerField(blank=True, null=True, default=0)
     score_player2 = models.IntegerField(blank=True, null=True, default=0)
