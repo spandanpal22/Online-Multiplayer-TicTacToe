@@ -17,7 +17,8 @@ Play the classic Tic-Tac-Toe game online with your friends and chat at the same 
 <b>5. </b>Users can view their match history and re-enter the rooms they were part of. <br/><br/>
 <b>6. </b>The application uses websockets to implements all the real time features. <br/><br/>
 <b>7. </b>The application uses also uses API endpoints built within itself. <br/><br/>
-<b>8. </b>The entire application is responsive which is done using Bootstrap. <br/><br/>
+<b>8. </b>The Heroku link of this application is Google searchable. <br/><br/>
+<b>9. </b>The entire application is responsive which is done using Bootstrap. <br/><br/>
 <br/>
 <br/>
 <h2>About this application</h2>
