@@ -3,8 +3,6 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
 from channels.auth import login
-from channels.db import database_sync_to_async
-from django.contrib.auth.models import User
 
 
 class ChatConsumer(WebsocketConsumer):

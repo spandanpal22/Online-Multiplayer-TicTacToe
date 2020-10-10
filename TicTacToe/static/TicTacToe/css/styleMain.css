@@ -29,5 +29,17 @@
     .input-msg {
         width: 50vw;
     }
+
+    .navbar-mobile {
+        text-align: center;
+    }
+
+    .buttonsStyle {
+        margin-left: 26%;
+    }
+
+    .buttonsStyleLogout {
+        margin-left: 37%;
+    }
 }
 

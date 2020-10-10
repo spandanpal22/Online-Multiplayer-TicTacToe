@@ -2,18 +2,21 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.db.models import Q
-import json, sys
+import json
 
 from .models import Room
 
 
 def index(request):
     return render(request, 'TicTacToe/index.html', {})
+
+
+def rules(request):
+    return render(request, 'TicTacToe/rules.html', {})
 
 
 def LogIn(request):
@@ -82,14 +85,9 @@ def myMatches(request):
         myRooms = Room.objects.filter(Q(player1=request.user) | Q(player2=request.user))
         return render(request, 'TicTacToe/myMatches.html', {'myRooms': myRooms})
     except:
-        print("ERROR", sys.exc_info()[0])
         pass
 
     return render(request, 'TicTacToe/myMatches.html', {'myRooms': myRooms})
-
-
-def rules(request):
-    return render(request, 'TicTacToe/rules.html', {})
 
 
 @login_required(login_url='/log-in')

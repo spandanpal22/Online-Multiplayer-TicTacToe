@@ -94,17 +94,9 @@
             </div>
             <div class="col-lg-1"></div>
         </div>
-        <!--
         <div class="row">
             <div class="col"></div>
-            <div class="col-lg-2 centerAlign"><h6>Total Matches : 5</h6></div>
-            <div class="col"></div>
-        </div>
-        -->
-        <div class="row">
-            <div class="col"></div>
-            <div class="col-lg-6 col-xs-6 col-md-6 centerAlign">( Don't refresh the page while the game is in progress
-                )
+            <div class="col-lg-6 col-xs-6 col-md-6 centerAlign">( Don't refresh the page while the game is in progress)
             </div>
             <div class="col"></div>
         </div>
@@ -211,7 +203,6 @@
                     const cookies = document.cookie.split(';');
                     for (let i = 0; i < cookies.length; i++) {
                         const cookie = cookies[i].trim();
-                        // Does this cookie string begin with the name we want?
                         if (cookie.substring(0, name.length + 1) === (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                             break;
@@ -229,7 +220,6 @@
         function checkIfPlayer2Joined() {
             var intervalID = window.setInterval(function () {
                 var player2="{{ player2Name }}";
-                //isPlayer2NameAvailable = false;
                 if(player2 === 'None')
                 {
                     var myHeaders = new Headers();
@@ -251,7 +241,7 @@
                                 clearInterval(intervalID);
                             }
                         })
-                        .catch(error => console.log('error', error));
+                        .catch(error => console.error('error', error));
                 }
                 else {
                     clearInterval(intervalID);
@@ -323,7 +313,7 @@
                 .then(result => {
                     result = JSON.parse(result);
                 })
-                .catch(error => console.log('error', error));
+                .catch(error => console.error('error', error));
             }
         };
 
@@ -384,7 +374,6 @@
         };
         gameSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            {#console.log('game socket data received', data);#}
             let posButton = document.querySelector('#' + data.pos);
             lastTurn = data.username;
             if (!posButton.hasAttribute('disabled')) {

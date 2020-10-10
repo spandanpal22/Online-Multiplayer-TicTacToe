@@ -43,7 +43,6 @@
                 const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
@@ -56,15 +55,9 @@
         const csrftoken = getCookie('csrftoken');
 
         document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function (e) {
-            //if (e.keyCode === 13) {  // enter, return
-            //    document.querySelector('#room-name-submit').click();
-            //}
-        };
 
         document.querySelector('#room-name-submit').onclick = function (e) {
             var roomName = document.querySelector('#room-name-input').value;
-            var shouldOpenRoom = false;
 
             var myHeaders = new Headers();
             myHeaders.append("Cookie", "csrftoken=" + csrftoken);
@@ -82,12 +75,11 @@
                         window.location.pathname = roomName + '/';
                     }
                 })
-                .catch(error => console.log('error', error));
+                .catch(error => console.error('error', error));
         };
 
         document.querySelector('#room-name-join').onclick = function (e) {
             var roomName = document.querySelector('#room-name-input').value;
-            var shouldOpenRoom = false;
 
             var myHeaders = new Headers();
             myHeaders.append("Cookie", "csrftoken=" + csrftoken);
@@ -99,14 +91,13 @@
                 .then(response => response.text())
                 .then(result => {
                     result = JSON.parse(result);
-                    console.log(result.is_full);
                     if (result.is_full === true) {
                         alert('This room name is full. Try to create a new room.')
                     } else {
                         window.location.pathname = roomName + '/';
                     }
                 })
-                .catch(error => console.log('error', error));
+                .catch(error => console.error('error', error));
         };
     </script>
 {% endblock %}

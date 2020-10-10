@@ -23,7 +23,6 @@
 
     <!-- Primary Meta Tags -->
     <title>{% block title %}Online Multiplayer Tic-Tac-Toe with chat support{% endblock %}</title>
-    {#    <title>{% block title %}Multiplayer Tic Tac Toe{% endblock %}</title>#}
     <meta name="title" content="Online Multiplayer Tic-Tac-Toe with chat support">
     <meta name="description"
           content="Play the classic game of Tic-Tac-Toe with your friends over the internet. Create a room to start playing and chatting simultaneously.">
@@ -79,7 +78,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse navbar-mobile" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         </ul>
         <div class="my-2 my-lg-0">
@@ -111,14 +110,14 @@
                     </li>
                 </ul>
             </div>
-            <div class="form-inline my-3 my-lg-0">
+            <div class="form-inline my-3 my-lg-0 buttonsStyleLogout">
                 <a href="{% url 'log_out' %}">
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out
                     </button>
                 </a>
             </div>
         {% else %}
-            <div class="form-inline my-3 my-lg-0">
+            <div class="form-inline my-3 my-lg-0 buttonsStyle">
                 <a href="{% url 'sign_up' %}">
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" style="margin-right: 10px"
                     >Sign Up
@@ -138,7 +137,6 @@
 {% block content %}{% endblock %}
 <footer class="page-footer font-small stylish-color-dark pt-4" style="background-color: #3E4551;color: white;">
     <hr>
-    <!-- Call to action -->
     {% if user.is_authenticated %}
     {% else %}
         <ul class="list-unstyled list-inline text-center py-2">
@@ -164,11 +162,9 @@
             <div class="col"></div>
         </div>
     </div>
-    <!-- Call to action -->
 
     <hr style="background-color: white;margin-left: 10vw; margin-right: 10vw;">
 
-    <!-- Social buttons -->
     <ul class="list-unstyled list-inline text-center">
         <li class="list-inline-item">
             <a class="btn-floating btn-fb mx-1" href="https://github.com/spandanpal22">
@@ -191,13 +187,9 @@
             </a>
         </li>
     </ul>
-    <!-- Social buttons -->
 
-    <!-- Copyright -->
     <div class="footer-copyright text-center py-3">© 2020 Copyright : Spandan Pal
     </div>
-    <!-- Copyright -->
-
 </footer>
 {% block javascript %}{% endblock %}
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
