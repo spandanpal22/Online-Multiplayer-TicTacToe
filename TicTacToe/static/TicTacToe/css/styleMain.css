@@ -21,6 +21,15 @@
     width: 65vw;
 }
 
+.githubLink {
+    font-size: 20px;
+    color: grey;
+}
+
+.githubLink:hover {
+    color: white;
+}
+
 @media only screen and (max-width: 600px) {
     .title-navbar {
         font-size: 10px;
